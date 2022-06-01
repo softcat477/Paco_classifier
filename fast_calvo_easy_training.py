@@ -17,11 +17,14 @@ stopping.
 import logging
 import os
 import sys
+
+print (sys.path)
 import cv2
 import numpy as np
 import training_engine_sae as training
 import pdb
 import argparse
+from input_settings_test import pre_training_check
 
 
 # ===========================
@@ -39,8 +42,8 @@ kPATH_OUTPUT_MODELS_DEFAULT = ["Models/model_background.h5", "Models/model_staff
 kBATCH_SIZE_DEFAULT = 8
 kPATCH_HEIGHT_DEFAULT = 256
 kPATCH_WIDTH_DEFAULT = 256
-kMAX_NUMBER_OF_EPOCHS_DEFAULT = 50
-kNUMBER_SAMPLES_PER_CLASS_DEFAULT = 1000
+kMAX_NUMBER_OF_EPOCHS_DEFAULT = 1
+kNUMBER_SAMPLES_PER_CLASS_DEFAULT = 100
 kEARLY_STOPPING_PATIENCE_DEFAULT = 15
 kFILE_SELECTION_MODE_DEFAULT = training.FileSelectionMode.SHUFFLE
 kSAMPLE_EXTRACTION_MODE_DEFAULT = training.SampleExtractionMode.RANDOM
@@ -256,6 +259,8 @@ config = menu()
 inputs = init_input_dictionary(config)
 outputs = init_output_dictionary(config)
 
+# Sanity check
+pre_training_check(inputs, config.batch_size, config.patch_height, config.patch_width, config.number_samples_per_class)
 
 input_ports = len([x for x in inputs if "Layer" in x])
 output_ports = len([x for x in outputs if "Model" in x or "Log file" in x])

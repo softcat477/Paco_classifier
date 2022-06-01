@@ -1,15 +1,13 @@
-# Paco_classifier
+# Paco-classifier
 
 Repository of the Rodan wrapper for Calvo classifier
 
 # Rodan Jobs definition
 This repository includes the following Rodan Jobs:
-- `Pixelwise Analysis of Music Document` in **calvo_classifier.py**
-- `Training model for Pixelwise Analysis of Music Document` in **calvo_trainer.py**
 - `Fast Pixelwise Analysis of Music Document` in **fast_calvo_classifier.py**
-  - Available in the **python3** Rodan queue.
+  - Available in the **GPU** Rodan queue.
 - `Training model for Patchwise Analysis of Music Document` in **fast_calvo_trainer.py**
-  - Available in the **python3** Rodan queue.
+  - Available in the **GPU** Rodan queue.
 
 # Installation Dependencies
 
@@ -52,7 +50,7 @@ Both are ready for receiving different parameters.
   * **-prg** `Path to the folder with the mask regions.` (**Default:** *datasets/regions*)
   * **-pbg** `Path to the folder with the background ground-truth data.` (**Default:** *datasets/layers/background*)
   * **-pgt** `A repeatable option for a path to the folder with ground-truth data for each layer (other than background).` (**Default:** *datasets/layers/staff*  *datasets/layers/neumes*)
-  * **-out** `A repeteable option for a path for the output model for each layer including the background.` (**Default:** *Models/model_background.hdf5*   *Models/model_staff.hdf5*  *Models/model_neumes.hdf5*)
+  * **-out** `A repeatable option for a path for the output model for each layer including the background.` (**Default:** *Models/model_background.hdf5*   *Models/model_staff.hdf5*  *Models/model_neumes.hdf5*)
   * **-width** `Width of the window to extract samples.` (**Default:** *256*)
   * **-height** `Height of the window to extract samples` (**Default:** *256*)
   * **-b** `Batch size` (**Default:** *8*)
@@ -62,7 +60,7 @@ Both are ready for receiving different parameters.
   * **-fm** `Mode of the selection of the files in the training process. Possible values: [RANDOM, SHUFFLE, SEQUENTIAL].` (**Default:** *SHUFFLE*)
   * **-sm** `Mode of extraction of samples. Possible values: [RANDOM, SEQUENTIAL].` (**Default:** *RANDOM*)
   
-Note that the parameters **-pgt** and **-out** are repeteable options. For including more layers, these two parameters have to be repeated one time for each layer to provide the corresponding paths. Note also that the **-out** parameter indicates the paths in which each trained model will be saved. So that, the number of paths provided with the parameter **-out** must match with the number of path folders provided for each layer, including the background one. 
+Note that the parameters **-pgt** and **-out** are repeatable options. For including more layers, these two parameters have to be repeated one time for each layer to provide the corresponding paths. Note also that the **-out** parameter indicates the paths in which each trained model will be saved. So that, the number of paths provided with the parameter **-out** must match with the number of path folders provided for each layer, including the background one. 
 
 If you have 3 layers (background, staff, neumes), you have to provide the path folder to the background data with **-pbg**, the path folders to the data of the rest of layers through **-pgt** (parameter repeated for each additional layer) and the output path for the trained models for each layer, being the background model the first one, and the rest of output paths matching with the different layers provided by **-pgt**, considering the order in which they were provided. For example:
 
@@ -108,7 +106,10 @@ Within that script, there are a set of parameters with an example of use. Each o
   * **SAMPLE_EXTRACTION_MODE**="RANDOM"  
 
 
-**IMPORTANT**: Currently, these scripts require that the data have a specific folder structure. It is necessary to have a folder for images, another for the region masks, another for the background layer, and an additional folder for each layer different to the background. For example:
+**IMPORTANT**: 
+**NUMBER_SAMPLES_PER_CLASS** cannot be smaller than **BATCH_SIZE**. The image width cannot be smaller than **WINDOW_WIDTH** and similarly, the image height cannot be smaller than **WINDOW_HEIGHT**. Ground truth portions of layers have to be fully opaque and have alpha channel value of 255 (`img[:, :, TRANSPARENCY] == 255`). Any image that contains 0 fully opaque pixel will be removed from the training set. Exception will be thrown if all images of a layer are empty.  
+  
+Currently, these scripts require that the data have a specific folder structure. It is necessary to have a folder for images, another for the region masks, another for the background layer, and an additional folder for each layer different to the background. For example:
 
   - **datasets** `Parent folder.`
     - **images** `Folder for images.`
@@ -136,3 +137,4 @@ With this structure, each image have exactly the same name of the associated dat
       - **neume**
         - image_01.png
         - example_99.png
+

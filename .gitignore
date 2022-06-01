@@ -136,5 +136,4 @@ core.*
 dataset/
 profiler_bgModel.sh
 *.out
-
-.gitignore
+.DS_Store
