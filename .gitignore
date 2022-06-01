@@ -137,3 +137,5 @@ dataset/
 profiler_bgModel.sh
 *.out
 .DS_Store
+
+*.zip

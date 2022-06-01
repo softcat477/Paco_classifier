@@ -1,0 +1,22 @@
+---
+path_src: 'datasets/images'
+path_bg: 'datasets/layers/background'
+path_regions: 'datasets/regions'
+path_layer:
+  - 'datasets/layers/staff'
+  - 'datasets/layers/neumes'
+path_out: 
+  - 'Models/model_background.h5'
+  - 'Models/model_staff.h5'
+  - 'Models/model_neumes.h5'
+
+patch_height: 256
+patch_width: 256
+
+number_samples_per_class: 1000
+batch_size: 8
+patience: 15
+max_epochs: 50
+
+sample_extraction_mode: "RANDOM"
+file_selection_mode: "SHUFFLE"
