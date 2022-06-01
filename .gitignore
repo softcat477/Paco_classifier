@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+.envPaco/
+fake.txt
+
+Results/
+core.*
+dataset/
+profiler_bgModel.sh
+*.out
+
+.gitignore
