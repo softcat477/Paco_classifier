@@ -1,3 +1,6 @@
+"""
+This should be a normal deep learning training/testing script.
+"""
 import numpy as np
 import os.path as osp
 import os
@@ -6,6 +9,7 @@ import cv2
 
 from Utils.ConfigParser import loadConfig
 from Agent import Agent
+from Loader import TestDatasetLoader
 
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -16,9 +20,13 @@ def train(OmrAgent):
     return
 
 def evaluate(agent):
-    for idx, pred_img_list in enumerate(agent.evaluate()):
-        for pred_img in pred_img_list:
-            cv2.imwrite(f"./{idx}.png", pred_img)
+    testset_name_list = agent.getTestsetNameList()
+
+    for idx_img, pred_img_list in enumerate(agent.evaluate()):
+        for idx_layer, pred_img in enumerate(pred_img_list):
+            filename = f"./Results/{testset_name_list[idx_img]}_{idx_layer}.png"
+            print (f"Write to {filename}")
+            cv2.imwrite(filename, pred_img)
 
     # Do silly masking stuff :<
     return
@@ -30,10 +38,13 @@ if __name__ == "__main__":
     pp.pprint(cfg)
 
     # Dataset Loader
+    test_dataset = TestDatasetLoader(cfg.testset)
 
     # Get Model
 
     # Create an OMR agent and inject dataset/model
+    agent = Agent(train_dataset=None, test_dataset=test_dataset, cfg=cfg)
 
     # ckpts <- agent.train()
-    agent.evaluate()
+    evaluate(agent)
+    print ("pass")
