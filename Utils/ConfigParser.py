@@ -160,7 +160,10 @@ def getDefaultConfig():
     'path_src': kPATH_IMAGES_DEFAULT,
     'patience': kEARLY_STOPPING_PATIENCE_DEFAULT,
     'sample_extraction_mode': 'RANDOM',
-    'file_selection_mode': 'SHUFFLE'}
+    'file_selection_mode': 'SHUFFLE',
+    'path_ckpt': [],
+    'testset': [],
+    }
     return tmp
 
 def loadConfig(config_path:str):

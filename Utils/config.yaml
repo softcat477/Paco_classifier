@@ -1,4 +1,5 @@
 ---
+# For training
 path_src: 'datasets/images'
 path_bg: 'datasets/layers/background'
 path_regions: 'datasets/regions'
@@ -10,6 +11,16 @@ path_out:
   - 'Models/model_staff.h5'
   - 'Models/model_neumes.h5'
 
+# For evaluating
+path_ckpt: # Load ckpts from here
+  - 'Resources/MS73Ckpts_1000/MS73_train_BG_w256_n1000.h5'
+  - 'Resources/MS73Ckpts_1000/MS73_train_staff_w256_n1000.h5'
+  - 'Resources/MS73Ckpts_1000/MS73_train_neumes_w256_n1000.h5'
+testset: # A list of test images
+  - "Resources/MS73ClassifyTc/Image - 040.png"
+  - "Resources/MS73ClassifyTc/Image - 068.png"
+
+# Shared setting
 patch_height: 256
 patch_width: 256
 
